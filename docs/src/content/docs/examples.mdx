@@ -1,0 +1,36 @@
+---
+title: Examples
+---
+
+import { Code } from '@astrojs/starlight/components';
+
+This page contains examples of Astro components that use `emitAsset()` to generate files that they use.
+
+## Generated image with sharp
+
+import bratExample from './examples/brat.astro?raw';
+import Brat from './examples/brat.astro';
+
+This example recreates the album cover of Charli XCX’s _Brat_ using [sharp](https://sharp.pixelplumbing.com/)’s ability to create images of text.
+
+<Brat />
+
+<details>
+	<summary>View source</summary>
+	<Code code={bratExample} lang="astro" />
+</details>
+
+## Multiple assets
+
+import multipleExample from './examples/multiple.astro?raw';
+import Multiple from './examples/multiple.astro';
+
+This example shows how to return multiple assets from `emitAsset()`, creating multiple SVG files based on an array of colours.
+This can be useful for paginated media or creating multiple related assets from one process.
+
+<Multiple />
+
+<details>
+	<summary>View source</summary>
+	<Code code={multipleExample} lang="astro" />
+</details>

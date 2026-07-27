@@ -1,0 +1,86 @@
+---
+title: Astro Emit Asset
+description: Emit static assets from Astro components and endpoints
+head:
+  - tag: title
+    content: astro-emit-asset
+  - tag: style
+    content: |
+      h1 {
+        line-height: 1;
+      }
+      .hero-html {
+        --size: 12rem;
+        font-size: var(--size);
+        justify-content: center;
+        line-height: var(--size);
+      }
+      hr {
+        margin-block: 3em;
+      }
+editUrl: false
+tableOfContents: false
+hero:
+  tagline: Emit static assets from Astro components and endpoints
+  image:
+    html: '📤'
+  # actions:
+  #   - text: Get Started
+  #     link: /getting-started/
+  #     icon: right-arrow
+sidebar:
+  label: Home
+---
+
+<section style="display: flex; flex-wrap: wrap; gap: 1rem;">
+<div style="font-size: var(--sl-text-xl); flex: 1 1;">
+Call a function…
+
+{/* prettier-ignore */}
+```js
+const asset = await emitAsset(
+  'my.jpg',
+  [],
+  () => generateImage()
+);
+```
+
+</div>
+<div style="font-size: var(--sl-text-xl); flex: 1 1; margin: 0;">
+
+…get the URL for your asset.
+
+```astro "asset.src"
+<img src={asset.src}>
+```
+
+import Badge from './examples/badge.astro';
+
+<Badge />
+
+</div>
+</section>
+
+---
+
+`astro-emit-asset` makes it possible to create files in the build output of an Astro site as a side effect of pages, endpoints, and other code. Use it for open graph images, generated PDFs, audio files, or anything else you need.
+
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+<CardGrid>
+	<Card title="Built for static sites" icon="document">
+		Designed to emit build-time assets for simple static hosting.
+	</Card>
+	<Card title="Automatic caching" icon="server">
+		Assets are cached across builds and only regenerated when their inputs change.
+	</Card>
+	<Card title="Full build compatibility" icon="setting">
+		Emit assets from Markdown plugins, components, pages, static endpoints, or any other part of
+		your build pipeline.
+	</Card>
+	<Card title="Integration ready" icon="astro">
+		Use in your Astro integration to manage assets you need to create.
+	</Card>
+</CardGrid>

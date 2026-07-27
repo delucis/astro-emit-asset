@@ -1,0 +1,77 @@
+---
+title: Getting Started
+---
+
+import { PackageManagers } from 'starlight-package-managers';
+
+Emit static assets from Astro components and endpoints
+
+## Prerequisites
+
+You will need to have an Astro website.
+If you don't have one yet, you can follow the ["Install Astro"](https://docs.astro.build/en/install-and-setup/) guide to create one.
+
+## Installation
+
+`astro-emit-asset` is an Astro integration. Install it by running the following command in your terminal:
+
+<PackageManagers type="exec" pkg="astro" args="add astro-emit-asset" />
+
+## Usage
+
+import { Steps } from '@astrojs/starlight/components';
+
+<Steps>
+
+1. In the code where you want to emit an asset, import the `emitAsset()` function from the `astro-emit-asset/emit` module:
+
+   ```js
+   import { emitAsset } from 'astro-emit-asset/emit';
+   ```
+
+2. Create an asset by calling `emitAsset()` with three arguments:
+   1. Your asset’s file name. This will be combined with a generated hash to make it safe to cache the asset indefinitely.
+   2. Any variables your asset creation logic depends on. These will be used to invalidate caching if they change.
+   3. A function to generate your asset. It should return an object with the file contents as a `data` property and an optional `meta` object for metadata about your asset.
+
+   In the following example, the file name is `my.svg`, there are no dependencies so an empty array is passed, and the asset generator returns an SVG string and some information about the dimensions of the SVG:
+
+   ```js
+   const asset = await emitAsset('example.svg', [], () => {
+   	return {
+   		data: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">)
+   <circle fill="red" cx="50" cy="50" r="40" stroke="black" />
+   </svg>`,
+   		meta: { width: 100, height: 100 },
+   	};
+   });
+   ```
+
+3. Use the returned asset. `emitAsset()` returns an object with a `src` property with the path of your asset and a `meta` property containing any metadata your generator returned.
+
+   In the following example, the asset from above is used to create an image element in an Astro component:
+
+   ```astro
+   <img src={asset.src} width={asset.meta.width} height={asset.meta.height}>
+   ```
+
+   The resulting HTML will look something like:
+
+   ```html
+   <img src="/_astro/example.ZL7hak.svg" width="100" height="100" />
+   ```
+
+4. Happy emitting!
+
+</Steps>
+
+## FAQ
+
+### Does this work in on-demand routes?
+
+No. [On-demand rendering](https://docs.astro.build/en/guides/on-demand-rendering/) lets you run Astro’s rendering code on a server in response to user requests, but `emitAsset()` only works at build time in prerendered routes currently. On a server there may be no filesystem to persist an asset to and use of `emitAsset()` will fail.
+
+### What if I found a bug?!
+
+Astro Emit Asset is an open source project.
+Please report issues you run into in [the `astro-emit-asset` GitHub repository](https://github.com/delucis/astro-emit-asset).

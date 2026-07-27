@@ -1,0 +1,63 @@
+---
+import { emitAsset } from 'astro-emit-asset/emit';
+import sharp from 'sharp';
+
+export const badge = await emitAsset('foo.[hash].gif', [], async () => ({
+	data: await sharp({
+		create: {
+			width: 88,
+			height: 31,
+			channels: 3,
+			background: { r: 20, g: 20, b: 80 },
+			noise: { type: 'gaussian', mean: 20, sigma: 30 },
+		},
+	})
+		.composite([
+			{
+				input: {
+					create: { width: 88, height: 2, channels: 3, background: { r: 60, g: 60, b: 120 } },
+				},
+				gravity: 'south',
+			},
+			{
+				input: {
+					create: { width: 2, height: 31, channels: 3, background: { r: 60, g: 60, b: 120 } },
+				},
+				gravity: 'east',
+			},
+			{
+				input: {
+					create: { width: 88, height: 2, channels: 3, background: { r: 120, g: 120, b: 220 } },
+				},
+				gravity: 'north',
+			},
+			{
+				input: {
+					create: { width: 2, height: 31, channels: 3, background: { r: 120, g: 120, b: 220 } },
+				},
+				gravity: 'west',
+			},
+			{
+				input: {
+					text: {
+						text: '📤  <span foreground="white" weight="bold">Emit Asset</span>',
+						width: 88,
+						height: 18,
+						rgba: true,
+						font: 'Arial Narrow',
+					},
+				},
+			},
+		])
+		.gif()
+		.toBuffer(),
+}));
+---
+
+<img
+	src={badge.src}
+	alt="Generated 88x31 pixel badge with the text 'Emit Asset' and an outbox tray emoji"
+	style={{ marginInline: 'auto', imageRendering: 'pixelated' }}
+	width="88"
+	height="31"
+/>

@@ -1,0 +1,27 @@
+---
+import { emitAsset } from 'astro-emit-asset/emit';
+import sharp from 'sharp';
+
+export const brat = await emitAsset('foo.[hash].png', [], async () => ({
+	data: await sharp({
+		create: { width: 150, height: 150, channels: 3, background: { r: 138, g: 206, b: 0 } },
+	})
+		.composite([
+			{
+				input: {
+					text: {
+						text: '<span letter_spacing="-1000">brat</span>',
+						width: 150,
+						height: 41,
+						rgba: true,
+						font: 'Arial Narrow',
+					},
+				},
+			},
+		])
+		.png()
+		.toBuffer(),
+}));
+---
+
+<img src={brat.src} alt="brat" width="400" height="400" />
