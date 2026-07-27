@@ -11,8 +11,8 @@
 	],
 	"type": "module",
 	"exports": {
-		".": "./index.ts",
-		"./emit": "./emit.ts"
+		".": "./src/index.ts",
+		"./emit": "./src/emit.ts"
 	},
 	"dependencies": {
 		"mrmime": "^2.0.1",
