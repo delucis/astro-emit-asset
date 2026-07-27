@@ -27,6 +27,7 @@ export default defineConfig({
 			},
 			sidebar: ['', 'getting-started', 'examples', 'for-integrations'],
 			plugins: [starlightThemeFlexoki({ accentColor: 'blue' })],
+			routeMiddleware: './src/starlight-middleware.ts',
 		}),
 	],
 	experimental: {

@@ -1,5 +1,6 @@
 ---
 title: For integrations
+description: How to set up and use Astro Emit Asset as an integration author
 ---
 
 Emitting assets can be a useful ability when building [Astro integrations](https://docs.astro.build/en/guides/integrations/#building-your-own-integration).
