@@ -14,8 +14,6 @@ declare var globalThis: {
 // copy the emitted assets to the build output. It won’t break, but there’ll be duplicate logging
 // and duplicate file copying.
 
-// TODO: Test site using the `base` config option.
-
 /**
  * Astro integration that enables components and other code to emit static assets to the build output.
  *
@@ -34,22 +32,23 @@ export default () => {
 		name: NAMESPACE,
 		hooks: {
 			async 'astro:config:setup'({ command, config, updateConfig, logger }) {
-				/** The URL path prefix from which static assets will be served. */
-				let assetsDir = `/${config.build.assets}/`;
-				if (config.base !== '/') {
-					assetsDir = `${config.base.endsWith('/') ? config.base.slice(0, -1) : config.base}${assetsDir}`;
-				}
+				/** Astro’s configured assets directory, `/_astro/` by default. */
+				const assetsDir = `/${config.build.assets}/`;
+				const base = config.base.endsWith('/') ? config.base.slice(0, -1) : config.base;
+				/** Prefix a URL pathname with the site `base` if configured. */
+				const prefixBase = (path: string) => (config.base !== '/' ? `${base}${path}` : path);
 
 				globalThis[NAMESPACE] = {
 					cache: new AssetStore({
-						assetsDir,
+						assetsDir: prefixBase(assetsDir),
+						base,
 						cacheDir: new URL('./emit-asset/', config.cacheDir),
 						logger,
 					}),
 				};
 
 				if (command === 'dev') {
-					updateConfig({ vite: { plugins: [devMiddleware({ assetsDir })] } });
+					updateConfig({ vite: { plugins: [devMiddleware({ assetsDir, prefixBase })] } });
 				}
 			},
 
@@ -65,7 +64,13 @@ type VitePlugin = NonNullable<AstroConfig['vite']['plugins']>[number];
 /**
  * Plugin adding a Vite middleware to serve emitted assets during development.
  */
-function devMiddleware({ assetsDir }: { assetsDir: string }) {
+function devMiddleware({
+	assetsDir,
+	prefixBase,
+}: {
+	assetsDir: string;
+	prefixBase: (path: string) => string;
+}) {
 	return {
 		name: NAMESPACE,
 		enforce: 'pre',
@@ -73,9 +78,12 @@ function devMiddleware({ assetsDir }: { assetsDir: string }) {
 			return () =>
 				server.middlewares.use(async (req, res, next) => {
 					if (!req.url?.startsWith(assetsDir)) return next();
-					if (globalThis[NAMESPACE].cache.hasFile(req.url)) {
-						const content = await globalThis[NAMESPACE].cache.getFile(req.url);
-						const type = lookup(req.url) || 'text/plain';
+					// Vite middleware URLs do not include the site `base`, so we need to prefix it here to
+					// match the paths stored in the emitted asset store.
+					const filePath = prefixBase(req.url);
+					if (globalThis[NAMESPACE].cache.hasFile(filePath)) {
+						const content = await globalThis[NAMESPACE].cache.getFile(filePath);
+						const type = lookup(filePath) || 'text/plain';
 						res.statusCode = 200;
 						res.setHeader('Content-Type', type);
 						res.end(content);

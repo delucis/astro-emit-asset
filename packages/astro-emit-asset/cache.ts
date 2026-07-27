@@ -11,6 +11,7 @@ const toAbsolutePath = (file: string, dir: URL): URL => new URL(path.join(dir.to
 
 export class AssetStore {
 	assetsDir;
+	#base;
 	#cacheDir;
 	#cacheFile;
 	#logger: AstroIntegrationLogger;
@@ -23,14 +24,17 @@ export class AssetStore {
 
 	constructor({
 		assetsDir,
+		base,
 		cacheDir,
 		logger,
 	}: {
 		assetsDir: string;
+		base: string;
 		cacheDir: URL;
 		logger: AstroIntegrationLogger;
 	}) {
 		this.assetsDir = assetsDir;
+		this.#base = base;
 		this.#cacheDir = cacheDir;
 		this.#cacheFile = toAbsolutePath(CACHE_FILE, this.#cacheDir);
 		this.#logger = logger;
@@ -82,14 +86,16 @@ export class AssetStore {
 			const { src, cached } = activeFiles[i]!;
 			const t0 = performance.now();
 			const sourceFilePath = toAbsolutePath(src, this.#cacheDir);
-			const targetFilePath = toAbsolutePath(src, dir);
+			// The build output should not include `base`, so we strip it from the front of asset paths.
+			const srcWithoutBase = src.slice(this.#base.length);
+			const targetFilePath = toAbsolutePath(srcWithoutBase, dir);
 			await fs.promises.mkdir(path.dirname(fileURLToPath(targetFilePath)), { recursive: true });
 			await fs.promises.cp(sourceFilePath, targetFilePath);
 			const t1 = performance.now();
 			this.#logger.info(
 				`  ${pc.green('▶')} ` +
 					pc.dim(
-						`${src}${cached ? ' (reused cache entry)' : ''} (+${Math.round(t1 - t0)}ms) (${i + 1}/${count})`,
+						`${srcWithoutBase}${cached ? ' (reused cache entry)' : ''} (+${Math.round(t1 - t0)}ms) (${i + 1}/${count})`,
 					),
 			);
 		}

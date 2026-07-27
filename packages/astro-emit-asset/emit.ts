@@ -83,7 +83,12 @@ export async function emitAsset<T extends undefined | Record<string, unknown> = 
 		| Array<GeneratedAsset<T>>
 		| Promise<GeneratedAsset<T> | Array<GeneratedAsset<T>>>,
 ): Promise<Array<EmittedAsset<T>> | EmittedAsset<T>> {
-	const inputHash = hash(path + deterministicString(cacheKey) + deterministicString(generateAsset));
+	const inputHash = hash(
+		globalThis[NAMESPACE].cache.assetsDir +
+			path +
+			deterministicString(cacheKey) +
+			deterministicString(generateAsset),
+	);
 
 	const cached = globalThis[NAMESPACE].cache.getAsset(inputHash);
 	if (cached) {
