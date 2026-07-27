@@ -18,6 +18,11 @@
     "@changesets/cli": "^2.31.1"
   },
   "scripts": {
+    "%docs": "pnpm --filter ./docs",
+    "%core": "pnpm --filter astro-emit-asset",
+    "build": "pnpm -r build",
+    "predev": "pnpm %core build",
+    "dev": "pnpm %docs dev",
     "ci-version": "changeset version && pnpm install --no-frozen-lockfile",
     "ci-publish": "changeset publish"
   }

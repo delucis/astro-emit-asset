@@ -11,8 +11,8 @@
 	],
 	"type": "module",
 	"exports": {
-		".": "./src/index.ts",
-		"./emit": "./src/emit.ts"
+		".": "./dist/index.js",
+		"./emit": "./dist/emit.js"
 	},
 	"dependencies": {
 		"mrmime": "^2.0.1",
@@ -20,7 +20,8 @@
 	},
 	"devDependencies": {
 		"@types/node": "^26.1.1",
-		"astro": "^7.1.1"
+		"astro": "^7.1.1",
+		"typescript": "^6.0.3"
 	},
 	"peerDependencies": {
 		"astro": "^7.0.0"
@@ -34,5 +35,9 @@
 		"url": "https://github.com/delucis/astro-emit-asset.git",
 		"directory": "packages/astro-emit-asset"
 	},
-	"bugs": "https://github.com/delucis/astro-emit-asset/issues"
+	"bugs": "https://github.com/delucis/astro-emit-asset/issues",
+	"scripts": {
+		"build": "tsc",
+		"prepublishOnly": "pnpm build"
+	}
 }

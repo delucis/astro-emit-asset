@@ -1,3 +1,15 @@
 {
-  "extends": "astro/tsconfigs/strictest"
+	"extends": "astro/tsconfigs/strictest",
+	"include": ["src"],
+	"compilerOptions": {
+		"allowJs": false,
+		"rootDir": "src",
+		"outDir": "dist",
+		"noEmit": false,
+		"noUnusedLocals": true,
+		"erasableSyntaxOnly": true,
+		"allowImportingTsExtensions": false,
+		"isolatedDeclarations": true,
+		"declaration": true
+	}
 }

@@ -1,6 +1,6 @@
-import { NAMESPACE } from './constants';
-import { deterministicString } from './deterministic-string';
-import { hash } from './hash';
+import { NAMESPACE } from './constants.js';
+import { deterministicString } from './deterministic-string.js';
+import { hash } from './hash.js';
 import type { CachedAsset, EmittedAsset, GeneratedAsset } from './types';
 
 declare var globalThis: {
