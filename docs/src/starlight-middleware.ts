@@ -10,13 +10,18 @@ export const onRequest = defineRouteMiddleware(async ({ url, locals }) => {
 
 	// Generate an OpenGraph image for the current page.
 	const asset = await emitAsset('og.jpg', [title, description, prettyUrl], async () => {
+		const [width, height] = [1200, 630];
 		/** Padding around the text. */
-		const pad = 30;
+		const pad = 35;
+		/** Right margin. */
+		const rightMargin = 140;
+		/** Text width. */
+		const textWidth = width - pad * 2 - rightMargin;
 
 		/** Main text, using Pango markup for styling. See: https://docs.gtk.org/Pango/pango_markup.html */
-		let text = `<span color="#CECDC3" letter_spacing="-1000" weight="900">${title}</span>`;
+		let text = `<span color="#CECDC3" letter_spacing="-1000" weight="700">${title}</span>`;
 		if (description) {
-			text += `\n<span color="#878580" letter_spacing="-1000" size="100%" weight="100">${description}</span>`;
+			text += `\n<span color="#878580" letter_spacing="-1000" size="100%" weight="300">${description}</span>`;
 		}
 
 		/** Text to display in the footer of the image. */
@@ -24,20 +29,36 @@ export const onRequest = defineRouteMiddleware(async ({ url, locals }) => {
 
 		// Render image buffer with Sharp.
 		const data = await sharp({
-			create: { width: 1200, height: 630, channels: 3, background: '#100F0F' },
+			create: { width, height, channels: 3, background: '#100F0F' },
 		})
 			.composite([
 				// Main text.
 				{
-					input: { text: { text, width: 1000, height: 430, rgba: true } },
+					input: { text: { text, width: textWidth, height: 430, rgba: true } },
 					top: pad,
 					left: pad,
 				},
 				// Footer text.
 				{
-					input: { text: { text: footerText, width: 1000, height: 50, rgba: true } },
+					input: { text: { text: footerText, width: textWidth, height: 50, rgba: true } },
 					top: 585 - pad,
 					left: pad,
+				},
+				// Right-hand side coloured band.
+				{
+					input: { create: { width: rightMargin, height, channels: 3, background: '#205EA6' } },
+					gravity: 'east',
+				},
+				{
+					input: {
+						create: {
+							width: Math.round(rightMargin / 3),
+							height,
+							channels: 3,
+							background: '#4385BE',
+						},
+					},
+					gravity: 'east',
 				},
 			])
 			.jpeg()
