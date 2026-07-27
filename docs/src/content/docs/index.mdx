@@ -6,6 +6,9 @@ head:
     content: astro-emit-asset
   - tag: style
     content: |
+      :root {
+        --sl-content-width: 66.75rem;
+      }
       h1 {
         line-height: 1;
       }
@@ -14,6 +17,16 @@ head:
         font-size: var(--size);
         justify-content: center;
         line-height: var(--size);
+      }
+      .demo-2-up {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      .demo-col {
+        font-size: var(--sl-text-xl);
+        flex: 1 1;
+        margin: 0;
       }
       hr {
         margin-block: 3em;
@@ -24,16 +37,12 @@ hero:
   tagline: Emit static assets from Astro components and endpoints
   image:
     html: '📤'
-  # actions:
-  #   - text: Get Started
-  #     link: /getting-started/
-  #     icon: right-arrow
 sidebar:
   label: Home
 ---
 
-<section style="display: flex; flex-wrap: wrap; gap: 1rem;">
-<div style="font-size: var(--sl-text-xl); flex: 1 1;">
+<section class="demo-2-up">
+<div class="demo-col">
 Call a function…
 
 {/* prettier-ignore */}
@@ -46,7 +55,7 @@ const asset = await emitAsset(
 ```
 
 </div>
-<div style="font-size: var(--sl-text-xl); flex: 1 1; margin: 0;">
+<div class="demo-col">
 
 …get the URL for your asset.
 

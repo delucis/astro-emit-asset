@@ -9,7 +9,7 @@ export const badge = await emitAsset('foo.[hash].gif', [], async () => ({
 			height: 31,
 			channels: 3,
 			background: { r: 20, g: 20, b: 80 },
-			noise: { type: 'gaussian', mean: 20, sigma: 30 },
+			noise: { type: 'gaussian', mean: 20, sigma: 40 },
 		},
 	})
 		.composite([
@@ -42,9 +42,8 @@ export const badge = await emitAsset('foo.[hash].gif', [], async () => ({
 					text: {
 						text: '📤  <span foreground="white" weight="bold">Emit Asset</span>',
 						width: 88,
-						height: 18,
+						height: 16,
 						rgba: true,
-						font: 'Arial Narrow',
 					},
 				},
 			},
