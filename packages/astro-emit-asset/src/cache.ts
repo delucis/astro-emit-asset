@@ -10,7 +10,7 @@ const CACHE_FILE = `cache.json`;
 const toAbsolutePath = (file: string, dir: URL): URL => new URL(path.join(dir.toString(), file));
 
 export class AssetStore {
-	assetsDir;
+	assetsDir: string;
 	#base;
 	#cacheDir;
 	#cacheFile;
@@ -76,7 +76,7 @@ export class AssetStore {
 	}
 
 	/** Copy all active assets to the build output. */
-	async finalizeBuild(dir: URL) {
+	async finalizeBuild(dir: URL): Promise<void> {
 		this.#logger.info(pc.inverse(pc.green(` finalizing emitted assets... `)));
 		const t0 = performance.now();
 
@@ -112,7 +112,7 @@ export class AssetStore {
 	 * Get cached asset(s) by hash. Used by `emitAsset()`.
 	 * Getting an asset from the cache will mark it as active, so it will be copied to the build output.
 	 */
-	getAsset(assetHash: string) {
+	getAsset(assetHash: string): EmittedAsset<any> | Array<EmittedAsset<any>> | undefined {
 		const asset = this.#assets.get(assetHash);
 
 		if (!asset) {
@@ -139,14 +139,14 @@ export class AssetStore {
 	/**
 	 * Check if a file exists in the cache. Used by dev middleware.
 	 */
-	hasFile(file: string) {
+	hasFile(file: string): boolean {
 		return this.#files.has(file);
 	}
 
 	/**
 	 * Load a cached file so it can be served. Used by dev middleware.
 	 */
-	async getFile(file: string) {
+	async getFile(file: string): Promise<Buffer | undefined> {
 		if (!this.#files.has(file)) {
 			return undefined;
 		}
@@ -164,7 +164,7 @@ export class AssetStore {
 	/**
 	 * Add an asset to the cache so it can be retrieved later. Used by `emitAsset()`.
 	 */
-	async set(inputHash: string, assets: CachedAsset<any> | Array<CachedAsset<any>>) {
+	async set(inputHash: string, assets: CachedAsset<any> | Array<CachedAsset<any>>): Promise<void> {
 		for (const { src, data, meta } of Array.isArray(assets) ? assets : [assets]) {
 			try {
 				const filepath = toAbsolutePath(src, this.#cacheDir);

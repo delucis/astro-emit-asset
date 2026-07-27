@@ -1,7 +1,7 @@
 import type { AstroIntegration, AstroConfig } from 'astro';
 import { lookup } from 'mrmime';
-import { AssetStore } from './cache';
-import { NAMESPACE } from './constants';
+import { AssetStore } from './cache.js';
+import { NAMESPACE } from './constants.js';
 
 declare var globalThis: {
 	[NAMESPACE]: {
@@ -27,7 +27,7 @@ declare var globalThis: {
  * });
  * ```
  */
-export default () => {
+export default (): AstroIntegration => {
 	return {
 		name: NAMESPACE,
 		hooks: {
@@ -56,7 +56,7 @@ export default () => {
 				await globalThis[NAMESPACE].cache.finalizeBuild(dir);
 			},
 		},
-	} satisfies AstroIntegration;
+	};
 };
 
 type VitePlugin = NonNullable<AstroConfig['vite']['plugins']>[number];
