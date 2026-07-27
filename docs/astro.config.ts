@@ -25,7 +25,7 @@ export default defineConfig({
 			editLink: {
 				baseUrl: 'https://github.com/delucis/astro-emit-asset/edit/main/docs/',
 			},
-			sidebar: ['', 'getting-started', 'examples'],
+			sidebar: ['', 'getting-started', 'examples', 'for-integrations'],
 			plugins: [starlightThemeFlexoki({ accentColor: 'blue' })],
 		}),
 	],
