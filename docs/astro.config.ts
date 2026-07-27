@@ -11,7 +11,16 @@ export default defineConfig({
 		starlight({
 			title: 'Astro Emit Asset',
 			social: [
-				{ href: 'https://github.com/delucis/astro-emit-asset', icon: 'github', label: 'GitHub' },
+				{
+					href: 'https://github.com/delucis/astro-emit-asset',
+					icon: 'github',
+					label: 'GitHub repository',
+				},
+				{
+					href: 'https://npmx.dev/package/astro-emit-asset',
+					icon: 'npm',
+					label: 'Package on NPMX',
+				},
 			],
 			editLink: {
 				baseUrl: 'https://github.com/delucis/astro-emit-asset/edit/main/docs/',
