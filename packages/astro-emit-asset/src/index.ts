@@ -26,10 +26,10 @@ export default (): AstroIntegration => {
 	return {
 		name: NAMESPACE,
 		hooks: {
-			async 'astro:config:setup'({ command, config, updateConfig, logger }) {
+			async 'astro:config:setup'({ command, config, updateConfig, logger, isRestart }) {
 				// If the integration is already registered, skip the rest of the setup. Only a single
 				// instance of astro-emit-asset is required and can be shared by all users.
-				if (globalThis[NAMESPACE]) {
+				if (!isRestart && globalThis[NAMESPACE]) {
 					return;
 				}
 
@@ -48,7 +48,13 @@ export default (): AstroIntegration => {
 					}),
 				};
 
-				if (command === 'dev') {
+				if (
+					command === 'dev' &&
+					// Don’t add the plugin again if it’s already present.
+					!config.vite?.plugins?.some(
+						(p) => p && typeof p === 'object' && 'name' in p && p.name === NAMESPACE,
+					)
+				) {
 					updateConfig({ vite: { plugins: [devMiddleware({ assetsDir, prefixBase })] } });
 				}
 
