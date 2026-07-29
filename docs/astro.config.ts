@@ -1,7 +1,9 @@
+import { satteri } from '@astrojs/markdown-satteri';
 import starlight from '@astrojs/starlight';
 import emitAsset from 'astro-emit-asset';
 import { defineConfig } from 'astro/config';
 import starlightThemeFlexoki from 'starlight-theme-flexoki';
+import { satteriMdastCodeBlockEmitter } from './src/satteri-plugin';
 
 export default defineConfig({
 	site: 'https://delucis.github.io/',
@@ -31,8 +33,16 @@ export default defineConfig({
 			components: {
 				SocialIcons: './src/components/SocialIcons.astro',
 			},
+			expressiveCode: {
+				shiki: { langAlias: { svg: 'xml' } },
+			},
 		}),
 	],
+	markdown: {
+		processor: satteri({
+			mdastPlugins: [satteriMdastCodeBlockEmitter],
+		}),
+	},
 	experimental: {
 		contentIntellisense: true,
 	},

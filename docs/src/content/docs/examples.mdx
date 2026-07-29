@@ -35,3 +35,34 @@ This can be useful for paginated media or creating multiple related assets from 
 	<summary>View source</summary>
 	<Code code={multipleExample} lang="astro" />
 </details>
+
+## Markdown code block download links
+
+This example demonstrates using `emitAsset()` in a [Markdown plugin](https://docs.astro.build/en/guides/markdown-content/#markdown-plugins) (in this case a Sätteri plugin) to emit the contents of a code block to a file users can download.
+
+```svg title="example.svg" download
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+	<text y="0.9em" font-size="90">📤</text>
+</svg>
+```
+
+<details>
+	<summary>View details</summary>
+
+    The Markdown plugin lets users add a `download` attribute to code blocks to generate a download link below the block, e.g.
+
+    ````md
+    ```svg download
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    	<text y="0.9em" font-size="90">📤</text>
+    </svg>
+    ```
+    ````
+
+    The Markdown plugin uses `emitAsset()` to support this:
+
+    <Code code={pluginSrc} lang="ts" meta={`/.+emitAsset.+/`} />
+
+</details>
+
+import pluginSrc from '../../satteri-plugin.ts?raw';

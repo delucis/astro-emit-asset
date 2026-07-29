@@ -14,9 +14,11 @@
 		"astro": "astro"
 	},
 	"dependencies": {
+		"@astrojs/markdown-satteri": "^0.3.4",
 		"@astrojs/starlight": "^0.41.3",
 		"astro": "^7.1.1",
 		"astro-emit-asset": "workspace:*",
+		"satteri": "^0.9.5",
 		"sharp": "^0.35.3",
 		"starlight-package-managers": "^0.12.0",
 		"starlight-theme-flexoki": "^0.2.2"
