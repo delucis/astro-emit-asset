@@ -1,5 +1,11 @@
 # astro-emit-asset
 
+## 0.1.2
+
+### Patch Changes
+
+- [#6](https://github.com/delucis/astro-emit-asset/pull/6) [`51a7656`](https://github.com/delucis/astro-emit-asset/commit/51a7656623389596670c8735d61955516475ab62) Thanks [@delucis](https://github.com/delucis)! - Fixes support for multiple instances of `astro-emit-asset`. This ensures that the integration can be included multiple times (e.g. by different packages that depend on it) without any issues.
+
 ## 0.1.1
 
 ### Patch Changes
