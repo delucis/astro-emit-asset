@@ -9,11 +9,6 @@ declare var globalThis: {
 	};
 };
 
-// TODO: Handle multiple instances of this integration in the same project.
-// Currently, the dev middleware will run once per instance and the end of the build will repeatedly
-// copy the emitted assets to the build output. It won’t break, but there’ll be duplicate logging
-// and duplicate file copying.
-
 /**
  * Astro integration that enables components and other code to emit static assets to the build output.
  *
@@ -32,6 +27,12 @@ export default (): AstroIntegration => {
 		name: NAMESPACE,
 		hooks: {
 			async 'astro:config:setup'({ command, config, updateConfig, logger }) {
+				// If the integration is already registered, skip the rest of the setup. Only a single
+				// instance of astro-emit-asset is required and can be shared by all users.
+				if (globalThis[NAMESPACE]) {
+					return;
+				}
+
 				/** Astro’s configured assets directory, `/_astro/` by default. */
 				const assetsDir = `/${config.build.assets}/`;
 				const base = config.base.endsWith('/') ? config.base.slice(0, -1) : config.base;
@@ -50,10 +51,13 @@ export default (): AstroIntegration => {
 				if (command === 'dev') {
 					updateConfig({ vite: { plugins: [devMiddleware({ assetsDir, prefixBase })] } });
 				}
-			},
 
-			async 'astro:build:done'({ dir }) {
-				await globalThis[NAMESPACE].cache.finalizeBuild(dir);
+				// In builds, copy emitted assets to dist. Adding this dynamically ensures that a) this runs
+				// after user integrations and b) allows us to skip it if there are multiple instances of
+				// astro-emit-asset in the same project.
+				if (command === 'build') {
+					updateConfig({ integrations: [buildIntegration()] });
+				}
 			},
 		},
 	};
@@ -93,4 +97,18 @@ function devMiddleware({
 				});
 		},
 	} satisfies VitePlugin;
+}
+
+/**
+ * Astro integration that copies emitted assets to build output.
+ */
+function buildIntegration(): AstroIntegration {
+	return {
+		name: NAMESPACE,
+		hooks: {
+			async 'astro:build:done'({ dir }) {
+				await globalThis[NAMESPACE].cache.finalizeBuild(dir);
+			},
+		},
+	};
 }
