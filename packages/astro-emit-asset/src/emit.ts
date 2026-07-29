@@ -99,7 +99,7 @@ export async function emitAsset<T extends undefined | Record<string, unknown> = 
 
 	if (Array.isArray(generated)) {
 		const output: Array<CachedAsset<T>> = generated.map((asset, i) => ({
-			src: generateName(path, inputHash, i + 1),
+			src: generateName(path, inputHash, generated.length > 1 ? i + 1 : undefined),
 			data: asset.data,
 			meta: asset.meta!,
 		}));
