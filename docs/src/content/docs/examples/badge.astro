@@ -2,7 +2,7 @@
 import { emitAsset } from 'astro-emit-asset/emit';
 import sharp from 'sharp';
 
-export const badge = await emitAsset('foo.[hash].gif', [], async () => ({
+export const badge = await emitAsset('badge.gif', [], async () => ({
 	data: await sharp({
 		create: {
 			width: 88,
@@ -40,9 +40,9 @@ export const badge = await emitAsset('foo.[hash].gif', [], async () => ({
 			{
 				input: {
 					text: {
-						text: '📤  <span foreground="white" weight="bold">Emit Asset</span>',
-						width: 80,
-						height: 16,
+						text: '🖼️   <span foreground="white" weight="bold">my.gif</span>',
+						width: 88 - 14,
+						height: 31 - 14,
 						rgba: true,
 					},
 				},
@@ -55,7 +55,7 @@ export const badge = await emitAsset('foo.[hash].gif', [], async () => ({
 
 <img
 	src={badge.src}
-	alt="Generated 88x31 pixel badge with the text 'Emit Asset' and an outbox tray emoji"
+	alt="Generated 88x31 pixel badge with the text 'my.gif' and a framed picture emoji"
 	style={{ marginInline: 'auto', imageRendering: 'pixelated' }}
 	width="88"
 	height="31"
