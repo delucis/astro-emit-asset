@@ -1,0 +1,18 @@
+---
+import Default from '@astrojs/starlight/components/SocialIcons.astro';
+import { version } from '../../../packages/astro-emit-asset/package.json';
+---
+
+<Default><slot /></Default>
+<a href="https://github.com/delucis/astro-emit-asset/releases">v{version}</a>
+
+<style>
+	a {
+		font-size: var(--sl-text-sm);
+		text-decoration: none;
+		color: var(--sl-color-gray-3);
+	}
+	a:hover {
+		color: var(--sl-color-gray-1);
+	}
+</style>
