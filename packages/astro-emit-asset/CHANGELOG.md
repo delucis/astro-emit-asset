@@ -1,5 +1,11 @@
 # astro-emit-asset
 
+## 0.1.1
+
+### Patch Changes
+
+- [#4](https://github.com/delucis/astro-emit-asset/pull/4) [`bc31675`](https://github.com/delucis/astro-emit-asset/commit/bc316755edb6010e5372021ef6d5086d39943e40) Thanks [@kydecker](https://github.com/kydecker)! - Fixes missing types for `emitAsset()`
+
 ## 0.1.0
 
 ### Minor Changes
