@@ -2,6 +2,10 @@
 
 Emit static assets from Astro components and endpoints
 
+## Documentation
+
+See full details in the [Astro Emit Asset docs website →](https://delucis.github.io/astro-emit-asset/)
+
 ## Install
 
 `astro-emit-asset` is an Astro integration. Install it by running the following command in your terminal:
