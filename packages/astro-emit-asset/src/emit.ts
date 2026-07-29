@@ -1,7 +1,7 @@
 import { NAMESPACE } from './constants.js';
 import { deterministicString } from './deterministic-string.js';
 import { hash } from './hash.js';
-import type { CachedAsset, EmittedAsset, GeneratedAsset } from './types';
+import type { CachedAsset, EmittedAsset, GeneratedAsset } from './types.js';
 
 declare var globalThis: {
 	[NAMESPACE]: {
