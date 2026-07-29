@@ -1,5 +1,11 @@
 # astro-emit-asset
 
+## 0.1.3
+
+### Patch Changes
+
+- [#8](https://github.com/delucis/astro-emit-asset/pull/8) [`ea662c9`](https://github.com/delucis/astro-emit-asset/commit/ea662c979b2a6ccaa5ef5f791940a65787567e23) Thanks [@delucis](https://github.com/delucis)! - Fixes asset serving on dev server restarts
+
 ## 0.1.2
 
 ### Patch Changes
