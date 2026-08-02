@@ -14,9 +14,9 @@
 		"astro": "astro"
 	},
 	"dependencies": {
-		"@astrojs/markdown-satteri": "^0.3.4",
-		"@astrojs/starlight": "^0.41.3",
-		"astro": "^7.1.1",
+		"@astrojs/markdown-satteri": "^0.3.5",
+		"@astrojs/starlight": "^0.41.5",
+		"astro": "^7.1.6",
 		"astro-emit-asset": "workspace:*",
 		"satteri": "^0.9.5",
 		"sharp": "^0.35.3",
