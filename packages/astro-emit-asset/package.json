@@ -20,7 +20,7 @@
 	},
 	"devDependencies": {
 		"@types/node": "^26.6.3",
-		"astro": "^7.3.2",
+		"astro": "^7.3.5",
 		"typescript": "^6.0.3"
 	},
 	"peerDependencies": {
