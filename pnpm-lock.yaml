@@ -21,13 +21,13 @@ importers:
         specifier: ^0.9.12
         version: 0.9.12(@emnapi/runtime@1.11.3)(prettier@3.9.6)(typescript@6.0.3)
       '@astrojs/markdown-satteri':
-        specifier: ^0.4.5
+        specifier: ^0.4.6
         version: 0.4.6
       '@astrojs/starlight':
         specifier: ^0.42.7
         version: 0.42.7(astro@7.4.4(@types/node@26.6.6)(esbuild@0.28.1)(yaml@2.9.1))(supports-color@7.2.0)(typescript@6.0.3)
       astro:
-        specifier: ^7.4.2
+        specifier: ^7.4.4
         version: 7.4.4(@types/node@26.6.6)(esbuild@0.28.1)(yaml@2.9.1)
       astro-emit-asset:
         specifier: workspace:*
@@ -61,7 +61,7 @@ importers:
         specifier: ^26.6.6
         version: 26.6.6
       astro:
-        specifier: ^7.4.2
+        specifier: ^7.4.4
         version: 7.4.4(@types/node@26.6.6)(esbuild@0.28.1)(yaml@2.9.1)
       typescript:
         specifier: ^6.0.3
