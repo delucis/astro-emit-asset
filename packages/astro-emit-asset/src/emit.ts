@@ -57,7 +57,8 @@ export async function emitAsset<T extends undefined | Record<string, unknown> = 
  * @param generateAsset A function that generates the asset.
  *
  * It should return an object with a `data` property containing the file data, and an optional
- * `meta` property containing any metadata you want to associate with the asset.
+ * `meta` property containing any metadata you want to associate with the asset. The optional `path`
+ * property overrides the top-level `path` parameter.
  *
  * You can also return an array of objects if there are multiple files associated with this asset.
  * Each file will receive a numbered file name.
@@ -99,7 +100,7 @@ export async function emitAsset<T extends undefined | Record<string, unknown> = 
 
 	if (Array.isArray(generated)) {
 		const output: Array<CachedAsset<T>> = generated.map((asset, i) => ({
-			src: generateName(path, inputHash, generated.length > 1 ? i + 1 : undefined),
+			src: generateName(asset.path ?? path, inputHash, generated.length > 1 ? i + 1 : undefined),
 			data: asset.data,
 			meta: asset.meta!,
 		}));
@@ -109,7 +110,7 @@ export async function emitAsset<T extends undefined | Record<string, unknown> = 
 		return output;
 	} else {
 		const output: CachedAsset<T> = {
-			src: generateName(path, inputHash),
+			src: generateName(generated.path ?? path, inputHash),
 			data: generated.data,
 			meta: generated.meta!,
 		};

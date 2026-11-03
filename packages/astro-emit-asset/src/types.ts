@@ -4,6 +4,7 @@ type AssetFileContents = string | NodeJS.ArrayBufferView;
 export interface GeneratedAsset<T extends undefined | Record<string, unknown>> {
 	data: AssetFileContents;
 	meta?: T;
+	path?: string;
 }
 
 /** Full asset passed to the asset store when `emitAsset()` generates an asset. */
