@@ -12,3 +12,6 @@ minimumReleaseAge: 4320
 # Use local versions of packages instead of installing from npm
 preferWorkspacePackages: true
 linkWorkspacePackages: true
+minimumReleaseAgeExclude:
+  # Renovate security update: astro@7.4.7
+  - astro@7.4.7
