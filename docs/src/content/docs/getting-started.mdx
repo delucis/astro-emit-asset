@@ -35,7 +35,7 @@ import { Steps } from '@astrojs/starlight/components';
    2. Any variables your asset creation logic depends on. These will be used to invalidate caching if they change.
    3. A function to generate your asset. It should return an object with the file contents as a `data` property and an optional `meta` object for metadata about your asset.
 
-   In the following example, the file name is `my.svg`, there are no dependencies so an empty array is passed, and the asset generator returns an SVG string and some information about the dimensions of the SVG:
+   In the following example, the file name is `example.svg`, there are no dependencies so an empty array is passed, and the asset generator returns an SVG string and some information about the dimensions of the SVG:
 
    ```js
    const asset = await emitAsset('example.svg', [], () => {
